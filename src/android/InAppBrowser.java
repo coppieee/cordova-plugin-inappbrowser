@@ -763,7 +763,7 @@ public class InAppBrowser extends CordovaPlugin {
                     cordova.getActivity().startActivity(intent);
                     return true;
                 } catch (android.content.ActivityNotFoundException e) {
-                    LOG.e(LOG_TAG, "Error with " + url + ": " + e.toString());
+                    LOG.e(LOG_TAG, "Error with " + urlStr + ": " + e.toString());
                     return false;
                 }
                 
