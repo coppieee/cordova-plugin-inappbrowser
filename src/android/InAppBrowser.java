@@ -48,6 +48,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.webkit.DownloadListener;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.Config;
@@ -642,6 +643,14 @@ public class InAppBrowser extends CordovaPlugin {
                 inAppWebView.setWebChromeClient(new InAppChromeClient(thatWebView));
                 WebViewClient client = new InAppBrowserClient(thatWebView, edittext);
                 inAppWebView.setWebViewClient(client);
+                inAppWebView.setDownloadListener(new DownloadListener() {
+                    @Override
+                    public void onDownloadStart(String url, String userAgent,
+                            String contentDisposition, String mimetype,
+                            long contentLength) {
+                        cordova.getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    }
+                });
                 WebSettings settings = inAppWebView.getSettings();
                 settings.setJavaScriptEnabled(true);
                 settings.setJavaScriptCanOpenWindowsAutomatically(true);
@@ -765,8 +774,8 @@ public class InAppBrowser extends CordovaPlugin {
                 } catch (android.content.ActivityNotFoundException e) {
                     LOG.e(LOG_TAG, "Error with " + urlStr + ": " + e.toString());
                     return false;
-                }
                 
+}                
             }
             return false;
         }
