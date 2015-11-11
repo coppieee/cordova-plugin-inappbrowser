@@ -648,7 +648,7 @@ public class InAppBrowser extends CordovaPlugin {
                     public void onDownloadStart(String url, String userAgent,
                             String contentDisposition, String mimetype,
                             long contentLength) {
-                        cordova.getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        cordova.getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
                     }
                 });
                 WebSettings settings = inAppWebView.getSettings();
