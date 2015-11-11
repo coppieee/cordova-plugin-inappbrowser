@@ -387,7 +387,9 @@
             [self.commandDelegate sendPluginResult:pluginResult callbackId:scriptCallbackId];
             return NO;
         }
-    }else if([[url scheme] isEqualToString:@"itms-apps"]){
+    }else if([[url scheme] isEqualToString:@"itms-apps"] ||
+        [[url host] isEqualToString:@"itunes.apple.com"]
+    ){
         [theWebView stopLoading];
         [[UIApplication sharedApplication] openURL:[request URL]];
         // [self.navigationController popViewControllerAnimated:YES];
