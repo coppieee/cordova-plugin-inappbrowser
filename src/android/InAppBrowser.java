@@ -802,7 +802,7 @@ public class InAppBrowser extends CordovaPlugin {
                         address = url.substring(4, parmIndex);
 
                         // If body, then set sms body
-                        Uri uri = Uri.parse(url);
+                        // Uri uri = Uri.parse(url);
                         String query = uri.getQuery();
                         if (query != null) {
                             if (query.startsWith("body=")) {
