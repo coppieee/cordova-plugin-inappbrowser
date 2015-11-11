@@ -752,6 +752,19 @@ public class InAppBrowser extends CordovaPlugin {
             this.edittext = mEditText;
         }
 
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView webView, String url)
+        {
+            if(url.startsWith("http:") || url.startsWith("https:")) {
+                return false;
+            }
+
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+            return true;
+        }
+
         /**
          * Notify the host application that a page has started loading.
          *
