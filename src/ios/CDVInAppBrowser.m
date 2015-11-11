@@ -388,9 +388,9 @@
             return NO;
         }
     }else if([[url scheme] isEqualToString:@"itms-apps"]){
-        [webView stopLoading];
+        [theWebView stopLoading];
         [[UIApplication sharedApplication] openURL:[request URL]];
-        [self.navigationController popViewControllerAnimated:YES];
+        // [self.navigationController popViewControllerAnimated:YES];
         return NO;
     } else if ((self.callbackId != nil) && isTopLevelNavigation) {
         // Send a loadstart event for each top-level navigation (includes redirects).
