@@ -755,7 +755,7 @@ public class InAppBrowser extends CordovaPlugin {
         public boolean shouldOverrideUrlLoading(WebView view, String urlStr) {
             Uri uri = Uri.parse(urlStr);
             if(urlStr.startsWith("market:") ||
-                 (uri != null && uri.getScheme().startsWith("http") && uri.getHost().equals("play.google.com")
+                 (uri != null && uri.getScheme().startsWith("http") && uri.getHost().equals("play.google.com"))
             ){
                  try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
