@@ -752,19 +752,6 @@ public class InAppBrowser extends CordovaPlugin {
             this.edittext = mEditText;
         }
 
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView webView, String url)
-        {
-            if(url.startsWith("http:") || url.startsWith("https:")) {
-                return false;
-            }
-
-            Uri uri = Uri.parse(url);
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            cordova.getActivity().startActivity(intent);
-            return true;
-        }
-
         /**
          * Notify the host application that a page has started loading.
          *
@@ -775,6 +762,7 @@ public class InAppBrowser extends CordovaPlugin {
         public void onPageStarted(WebView view, String url,  Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             String newloc = "";
+            URI uri = URI.create(url);
             if (url.startsWith("http:") || url.startsWith("https:") || url.startsWith("file:")) {
                 newloc = url;
             }
@@ -788,8 +776,9 @@ public class InAppBrowser extends CordovaPlugin {
                     LOG.e(LOG_TAG, "Error dialing " + url + ": " + e.toString());
                 }
             }
-
-            else if (url.startsWith("geo:") || url.startsWith(WebView.SCHEME_MAILTO) || url.startsWith("market:")) {
+            else if (url.startsWith("geo:") || url.startsWith(WebView.SCHEME_MAILTO) || url.startsWith("market:")
+                || (uri != null && uri.getScheme().startsWith("http") && uri.getHost().equals("play.google.com"))
+            ) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(url));
