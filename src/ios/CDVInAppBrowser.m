@@ -388,15 +388,13 @@
             return NO;
         }
     }else if([[url scheme] isEqualToString:@"itms-apps"] ||
-        [[url host] isEqualToString:@"itunes.apple.com"] ||
-        [request.URL.absoluteString hasPrefix:@"newtab:"]
+        [[url host] isEqualToString:@"itunes.apple.com"]
     ){
         [theWebView stopLoading];
         [[UIApplication sharedApplication] openURL:[request URL]];
         // [self.navigationController popViewControllerAnimated:YES];
         return NO;
-    }
-    else if ((self.callbackId != nil) && isTopLevelNavigation) {
+    } else if ((self.callbackId != nil) && isTopLevelNavigation) {
         // Send a loadstart event for each top-level navigation (includes redirects).
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                                       messageAsDictionary:@{@"type":@"loadstart", @"url":[url absoluteString]}];
