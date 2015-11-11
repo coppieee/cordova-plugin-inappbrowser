@@ -751,7 +751,25 @@ public class InAppBrowser extends CordovaPlugin {
             this.webView = webView;
             this.edittext = mEditText;
         }
-
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String urlStr) {
+            Uri uri = Uri.parse(urlStr);
+            if(urlStr.startsWith("market:") ||
+                 (uri != null && uri.getScheme().startsWith("http") && uri.getHost().equals("play.google.com")
+            ){
+                 try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(urlStr));
+                    cordova.getActivity().startActivity(intent);
+                    return true;
+                } catch (android.content.ActivityNotFoundException e) {
+                    LOG.e(LOG_TAG, "Error with " + url + ": " + e.toString());
+                    return false;
+                }
+                
+            }
+            return false;
+        }
         /**
          * Notify the host application that a page has started loading.
          *
@@ -762,7 +780,7 @@ public class InAppBrowser extends CordovaPlugin {
         public void onPageStarted(WebView view, String url,  Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             String newloc = "";
-            Uri uri = Uri.parse(url);
+            
             if (url.startsWith("http:") || url.startsWith("https:") || url.startsWith("file:")) {
                 newloc = url;
             }
@@ -776,9 +794,7 @@ public class InAppBrowser extends CordovaPlugin {
                     LOG.e(LOG_TAG, "Error dialing " + url + ": " + e.toString());
                 }
             }
-            else if (url.startsWith("geo:") || url.startsWith(WebView.SCHEME_MAILTO) || url.startsWith("market:")
-                || (uri != null && uri.getScheme().startsWith("http") && uri.getHost().equals("play.google.com"))
-            ) {
+            else if (url.startsWith("geo:") || url.startsWith(WebView.SCHEME_MAILTO) || url.startsWith("market:")) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(url));
